@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Stalin Store - Custom Stylesheet
+   ========================================================================== */
+
+/* --- Base & Reset --- */
+html {
+    scroll-behavior: smooth; 
+}
+
+body {
+    overflow-x: hidden; 
+}
+
+/* --- Neon & Glow Effects --- */
+.neon-glow-blue {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.neon-glow-blue:hover {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+.neon-glow-gold {
+    box-shadow: 0 0 15px rgba(255, 183, 3, 0.3);
+}
+
+.neon-border-blue {
+    border-color: rgba(0, 240, 255, 0.5);
+}
+
+/* --- Glassmorphism Effect --- */
+.glass-panel {
+    background: rgba(19, 27, 46, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); 
+}
+
+/* --- Custom Scrollbar (Global) --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0b0f17;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+
+/* --- Custom Scrollbar (Khusus Area Chatbot) --- */
+.chat-scroll::-webkit-scrollbar {
+    width: 5px; 
+}
+
+.chat-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 10px;
+}
+
+/* --- Utility Class: Hide Scrollbar --- */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
