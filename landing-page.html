@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stalin Store - Toko Komputer & AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f17',
+                        cardBg: '#131b2e',
+                        accentBlue: '#00f0ff',
+                        accentGold: '#ffb703',
+                        textMuted: '#94a3b8'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Styling for Neon Effects and Chatbot Floating Window */
+        .neon-glow-blue {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .neon-glow-gold {
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.3);
+        }
+        .neon-border-blue {
+            border-color: rgba(0, 240, 255, 0.5);
+        }
+        .chat-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #0b0f17;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-slate-900 shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-laptop-code text-xl text-slate-950"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-200 to-amber-300">
+                            STALIN<span class="text-amber-400 font-medium"> STORE</span>
+                        </span>
+                        <p class="text-[10px] text-slate-400 -mt-1 tracking-widest uppercase">Komputer & AI Service</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#beranda" class="text-sm font-medium hover:text-cyan-400 transition-colors">Beranda</a>
+                    <a href="#produk" class="text-sm font-medium hover:text-cyan-400 transition-colors">Katalog Produk</a>
+                    <a href="#tentang" class="text-sm font-medium hover:text-cyan-400 transition-colors">Tentang Kami</a>
+                    <a href="#kontak" class="text-sm font-medium hover:text-cyan-400 transition-colors">Kontak</a>
+                    <a href="index.html" class="text-sm font-medium text-amber-400 hover:text-cyan-400 transition-colors">Homepage</a>
+                </nav>
+
+                <!-- Actions Right (Cart & Chat Trigger) -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+                        <i class="fa-solid fa-cart-shopping text-lg text-cyan-400"></i>
+                        <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                    
+                    <button onclick="toggleChatWindow()" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-semibold text-sm hover:opacity-90 transition shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Tanya Stalin AI</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative overflow-hidden py-16 lg:py-24 border-b border-slate-800/60">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-sparkles text-amber-400"></i> Terintegrasi IBM Watson Assistant
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                        Selamat Datang di <br/>
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-amber-400">
+                            Stalin Komputer
+                        </span>
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Pusat perkomputeran modern penyedia hardware, laptop, dan peripheral berkualitas tinggi. Nikmati pengalaman berbelanja cerdas dengan dukungan **Stalin AI Chatbot 24/7**.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#produk" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold hover:shadow-lg hover:shadow-cyan-500/25 transition">
+                            <i class="fa-solid fa-bag-shopping mr-2"></i> Jelajahi Produk
+                        </a>
+                        <button onclick="openChatWithQuery('Halo! Saya ingin konsultasi rekomendasi laptop')" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold border border-slate-700 transition flex items-center gap-2">
+                            <i class="fa-solid fa-comments text-cyan-400"></i> Konsultasi AI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Banner Visual Hero -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md bg-cardBg border border-slate-700/80 rounded-2xl p-6 shadow-2xl neon-glow-blue">
+                        <div class="flex items-center justify-between border-b border-slate-700/60 pb-4 mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span class="text-xs text-slate-400 ml-2 font-mono">WatsonX Assistant Integration</span>
+                            </div>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/30">Online</span>
+                        </div>
+                        <div class="space-y-3 font-mono text-sm">
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-slate-300">
+                                <p class="text-cyan-400 text-xs font-semibold mb-1">🤖 Stalin Assistant:</p>
+                                <p class="text-xs sm:text-sm">"Halo! Ada yang bisa saya bantu terkait produk laptop, rakitan PC, atau info ketersediaan stok hari ini?"</p>
+                            </div>
+                            <div class="bg-cyan-950/40 p-3 rounded-xl border border-cyan-800/50 text-right ml-6 text-slate-200">
+                                <p class="text-xs text-slate-400 mb-1">User:</p>
+                                <p class="text-xs sm:text-sm">"Bisa berikan panduan merakit PC gaming?"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section id="produk" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-white tracking-tight flex items-center gap-2">
+                    <i class="fa-solid fa-microchip text-cyan-400"></i> Katalog Produk Stalin Store
+                </h2>
+                <p class="text-slate-400 text-sm mt-1">Pilih perangkat keras & lunak terbaik sesuai kebutuhan Anda</p>
+            </div>
+
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterCategory('all')" class="cat-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-cyan-500 text-slate-950 transition">Semua</button>
+                <button onclick="filterCategory('laptop')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Laptop</button>
+                <button onclick="filterCategory('desktop')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Desktop PC</button>
+                <button onclick="filterCategory('aksesoris')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Aksesori & RGB</button>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Product Cards generated by JS -->
+        </div>
+    </section>
+
+    <!-- About Section (Sesuai Jurnal) -->
+    <section id="tentang" class="py-16 bg-cardBg/50 border-t border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-cyan-400 font-semibold text-xs tracking-widest uppercase">Studi Kasus & Riset</span>
+                    <h2 class="text-3xl font-bold text-white mt-1 mb-4">Tentang Stalin Store & AI Integration</h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
+                        Stalin Store merupakan platform e-commerce toko komputer online yang dirancang untuk mengintegrasikan layanan pelanggan berbasis kecerdasan buatan (**IBM Watson Assistant**).
+                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Berdasarkan hasil pengujian *Black Box Testing* pada penelitian, implementasi Chatbot terbukti meningkatkan efisiensi layanan, mempercepat respon pertanyaan umum (spesifikasi, stok, panduan merakit PC), serta menjaga keamanan data pribadi pengguna.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                            <h4 class="text-cyan-400 text-lg font-bold">100%</h4>
+                            <p class="text-xs text-slate-400">Akurasi Respon Skenario Uji</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                            <h4 class="text-amber-400 text-lg font-bold">24/7</h4>
+                            <p class="text-xs text-slate-400">Layanan Otomatis Tanpa Henti</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-darkBg p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-amber-400"></i> Skenario Layanan Chatbot AI
+                    </h3>
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 mt-1"></i>
+                            <span>Menyapa & merekomendasikan Laptop sesuai anggaran pengguna.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 mt-1"></i>
+                            <span>Memberikan rekomendasi alternatif jika produk sedang kosong.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 mt-1"></i>
+                            <span>Panduan step-by-step tutorial merakit PC secara mandiri.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 mt-1"></i>
+                            <span>Keamanan proteksi data transaksi & enkripsi informasi pribadi.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak" class="bg-darkBg py-10 border-t border-slate-800/80 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="text-slate-300 font-semibold">Stalin Store &copy; 2024 - Toko Komputer Online</p>
+                <p class="text-slate-500 text-[11px]">Berdasarkan Jurnal JATI (Jurnal Mahasiswa Teknik Informatika) Vol. 8 No. 3</p>
+            </div>
+            <div class="flex space-x-4 text-base text-slate-400">
+                <a href="#" class="hover:text-cyan-400"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="hover:text-cyan-400"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="hover:text-cyan-400"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chatbot Widget -->
+    <div id="chatbot-container" class="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+        
+        <!-- Chat Popup Window -->
+        <div id="chat-window" class="hidden w-[90vw] sm:w-[380px] h-[520px] bg-cardBg border border-cyan-500/40 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 transition-all transform duration-300">
+            <!-- Chat Window Header -->
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-4 border-b border-slate-700/80 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <span class="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white leading-none">Stalin Assistant</h3>
+                        <span class="text-[10px] text-cyan-400">Powered by IBM WatsonX</span>
+                    </div>
+                </div>
+                <button onclick="toggleChatWindow()" class="text-slate-400 hover:text-white text-lg px-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Chat Messages Scroll Container -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs sm:text-sm chat-scroll bg-slate-950/50">
+                <!-- Message content injected via JavaScript -->
+            </div>
+
+            <!-- Quick Action Suggestion Chips -->
+            <div class="p-2 bg-slate-900/90 border-t border-slate-800 flex gap-1.5 overflow-x-auto text-[11px] no-scrollbar">
+                <button onclick="sendQuickMessage('Rekomendasi Laptop')" class="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700 text-slate-300 transition">💻 Rekomendasi Laptop</button>
+                <button onclick="sendQuickMessage('Cara Merakit PC')" class="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700 text-slate-300 transition">🛠️ Merakit PC</button>
+                <button onclick="sendQuickMessage('Cek Stok Produk')" class="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700 text-slate-300 transition">📦 Cek Stok</button>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form id="chat-form" onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-900 border-t border-slate-800 flex gap-2">
+                <input id="chat-input" type="text" placeholder="Ketik pertanyaan Anda di sini..." class="flex-1 bg-slate-800 text-slate-100 placeholder-slate-500 text-xs sm:text-sm rounded-xl px-3 py-2.5 border border-slate-700 focus:outline-none focus:border-cyan-400">
+                <button type="submit" class="px-3.5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 rounded-xl font-bold hover:opacity-90 transition">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Floating Button (FAB) -->
+        <button onclick="toggleChatWindow()" class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-slate-950 font-bold text-2xl shadow-xl shadow-cyan-500/30 flex items-center justify-center hover:scale-105 transition transform active:scale-95">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-cyan-400"></i> Keranjang Belanja
+                </h3>
+                <button onclick="toggleCartModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div id="cart-items" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <!-- Cart item items inserted here -->
+            </div>
+
+            <div class="border-t border-slate-700 pt-3 flex justify-between items-center text-sm">
+                <span class="text-slate-400">Total Harga:</span>
+                <span id="cart-total" class="text-lg font-extrabold text-amber-400">Rp 0</span>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="toggleCartModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold text-xs hover:bg-slate-700">Lanjut Belanja</button>
+                <button onclick="checkoutCart()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs hover:opacity-90">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Products Data (Stalin Store Catalog)
+        const products = [
+            {
+                id: 1,
+                name: "Laptop Stalin Slim Pro i7",
+                category: "laptop",
+                price: 13500000,
+                spec: "Intel Core i7 Gen 13, 16GB RAM, 512GB SSD",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=80",
+                stock: true
+            },
+            {
+                id: 2,
+                name: "Laptop Stalin Beast Gaming RTX4060",
+                category: "laptop",
+                price: 18900000,
+                spec: "AMD Ryzen 7, RTX 4060 8GB, 16GB DDR5, 1TB NVMe",
+                image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=500&q=80",
+                stock: true
+            },
+            {
+                id: 3,
+                name: "PC Gaming Stalin Titan Core",
+                category: "desktop",
+                price: 24500000,
+                spec: "Intel i9-13900K, RTX 4070Ti, 32GB RAM, Liquid Cooling",
+                image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=500&q=80",
+                stock: true
+            },
+            {
+                id: 4,
+                name: "Custom PC Workstation Creator",
+                category: "desktop",
+                price: 16800000,
+                spec: "Ryzen 9 5900X, RTX 3060 12GB, 32GB RAM",
+                image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=500&q=80",
+                stock: false // For Blackbox testing scenario #2
+            },
+            {
+                id: 5,
+                name: "Ambient Light Strip RGB Stalin Glow",
+                category: "aksesoris",
+                price: 350000,
+                spec: "Smart App Control, Sync Audio & Game Mode",
+                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80",
+                stock: true
+            },
+            {
+                id: 6,
+                name: "Keyboard Mechanical RGB Stalin Tactical",
+                category: "aksesoris",
+                price: 850000,
+                spec: "Hot-swappable Switch Blue/Red, Braided Cable",
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=500&q=80",
+                stock: true
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        // Initial Render
+        window.onload = () => {
+            renderProducts();
+            initChatbotGreeting();
+        };
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentFilter === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentFilter);
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-cardBg border border-slate-800 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition duration-300 flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 right-3 text-[10px] uppercase font-bold px-2.5 py-1 rounded-md ${p.stock ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-red-500/20 text-red-400 border border-red-500/40'}">
+                                ${p.stock ? 'Tersedia' : 'Stok Habis'}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-white text-base group-hover:text-cyan-400 transition">${p.name}</h3>
+                            <p class="text-slate-400 text-xs mt-1.5 leading-relaxed">${p.spec}</p>
+                            <p class="text-amber-400 font-extrabold text-lg mt-3">Rp ${p.price.toLocaleString('id-ID')}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex gap-2">
+                        <button onclick="addToCart(${p.id})" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-cart-plus text-cyan-400"></i> + Keranjang
+                        </button>
+                        <button onclick="askChatbotAboutProduct('${p.name}')" class="px-3 py-2.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-400 border border-cyan-800/60 text-xs font-semibold transition" title="Tanya AI">
+                            <i class="fa-solid fa-robot"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Category Filter Function
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-500', 'text-slate-950');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.remove('bg-slate-800', 'text-slate-300');
+            event.target.classList.add('bg-cyan-500', 'text-slate-950');
+            renderProducts();
+        }
+
+        // Cart Actions
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            if(!item.stock) {
+                openChatWithQuery(`Apakah produk ${item.name} stoknya ready?`);
+                return;
+            }
+            cart.push(item);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            badge.innerText = cart.length;
+            if(cart.length > 0) badge.classList.remove('hidden');
+            else badge.classList.add('hidden');
+
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let total = 0;
+
+            if(cart.length === 0) {
+                container.innerHTML = `<p class="text-slate-500 text-center py-4 text-xs">Keranjang Anda masih kosong.</p>`;
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    container.innerHTML += `
+                        <div class="flex justify-between items-center bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <div>
+                                <p class="text-xs font-bold text-white">${item.name}</p>
+                                <p class="text-[11px] text-amber-400">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            </div>
+                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 text-xs px-2"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('cart-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCartModal() {
+            document.getElementById('cart-modal').classList.toggle('hidden');
+        }
+
+        function checkoutCart() {
+            if(cart.length === 0) return;
+            alert("Pesanan berhasil dibuat! Anda dapat mengonfirmasi data pengiriman ke Stalin Assistant.");
+            cart = [];
+            updateCartUI();
+            toggleCartModal();
+            openChatWithQuery("Halo, saya ingin mengonfirmasi pesanan yang baru saja checkout.");
+        }
+
+        // Chatbot Visibility
+        function toggleChatWindow() {
+            const win = document.getElementById('chat-window');
+            win.classList.toggle('hidden');
+            if(!win.classList.contains('hidden')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function openChatWithQuery(msg) {
+            const win = document.getElementById('chat-window');
+            if(win.classList.contains('hidden')) win.classList.remove('hidden');
+            sendUserMessage(msg);
+        }
+
+        function askChatbotAboutProduct(pName) {
+            openChatWithQuery(`Apakah ${pName} direkomendasikan untuk kebutuhan saya?`);
+        }
+
+        // Initial Greeting
+        function initChatbotGreeting() {
+            const msgs = document.getElementById('chat-messages');
+            msgs.innerHTML = `
+                <div class="bg-slate-900 p-3 rounded-2xl rounded-tl-none border border-slate-800 text-slate-200 space-y-1 max-w-[85%]">
+                    <p class="text-cyan-400 text-[10px] font-bold">🤖 Stalin Assistant</p>
+                    <p class="text-xs">Halo! Selamat datang di <b>Stalin Store</b>. Ada yang bisa saya bantu hari ini?</p>
+                    <p class="text-[10px] text-slate-400 pt-1">Anda bisa bertanya tentang laptop, rekomendasi PC, atau panduan merakit komputer!</p>
+                </div>
+            `;
+        }
+
+        function sendQuickMessage(text) {
+            sendUserMessage(text);
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const val = input.value.trim();
+            if(!val) return;
+            sendUserMessage(val);
+            input.value = '';
+        }
+
+        function sendUserMessage(text) {
+            const msgs = document.getElementById('chat-messages');
+            
+            // Append User Message
+            const userBubble = document.createElement('div');
+            userBubble.className = "flex justify-end";
+            userBubble.innerHTML = `
+                <div class="bg-cyan-950/80 text-cyan-100 p-3 rounded-2xl rounded-tr-none border border-cyan-800/60 text-xs max-w-[85%]">
+                    ${text}
+                </div>
+            `;
+            msgs.appendChild(userBubble);
+            msgs.scrollTop = msgs.scrollHeight;
+
+            // Show Typing Indicator
+            const typing = document.createElement('div');
+            typing.id = 'typing-indicator';
+            typing.className = "bg-slate-900 p-2.5 rounded-2xl rounded-tl-none border border-slate-800 text-slate-400 text-xs w-20 flex items-center justify-center gap-1";
+            typing.innerHTML = `<span class="animate-pulse">●</span><span class="animate-pulse delay-100">●</span><span class="animate-pulse delay-200">●</span>`;
+            msgs.appendChild(typing);
+            msgs.scrollTop = msgs.scrollHeight;
+
+            // Generate AI Response based on Document Testing Matrix (Table 1 Black Box Testing)
+            setTimeout(() => {
+                const indicator = document.getElementById('typing-indicator');
+                if(indicator) indicator.remove();
+
+                const responseText = processWatsonRules(text);
+                const botBubble = document.createElement('div');
+                botBubble.className = "bg-slate-900 p-3 rounded-2xl rounded-tl-none border border-slate-800 text-slate-200 space-y-1 max-w-[85%]";
+                botBubble.innerHTML = `
+                    <p class="text-cyan-400 text-[10px] font-bold">🤖 Stalin Assistant</p>
+                    <div class="text-xs leading-relaxed space-y-2">${responseText}</div>
+                `;
+                msgs.appendChild(botBubble);
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 800);
+        }
+
+        // Logic processing according to Table 1 in PDF Jurnal
+        function processWatsonRules(input) {
+            const query = input.toLowerCase();
+
+            // Skenario 1: Halo / Menyapa / Tanya Laptop
+            if(query.includes('halo') || query.includes('hai') || query.includes('laptop') || query.includes('rekomendasi laptop')) {
+                return `
+                    <p>Halo! Terima kasih telah menghubungi Stalin Store.</p>
+                    <p>Untuk laptop, kami merekomendasikan dua pilihan populer:</p>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-300">
+                        <li><b>Laptop Stalin Slim Pro i7</b> (Rp 13.500.000) - Cocok untuk produktivitas & kuliah/kantor.</li>
+                        <li><b>Stalin Beast Gaming RTX4060</b> (Rp 18.900.000) - Performa mumpuni untuk gaming & render video.</li>
+                    </ul>
+                    <p class="text-[11px] text-cyan-300 mt-1">Ketik nama laptop untuk info lebih mendalam!</p>
+                `;
+            }
+
+            // Skenario 2: Pertanyaan Produk Tidak Tersedia / Stok Kosong
+            if(query.includes('workstation') || query.includes('creator') || query.includes('kosong') || query.includes('stok')) {
+                return `
+                    <p>Mohon maaf, untuk produk <b>Custom PC Workstation Creator</b> saat ini stok sedang kosong karena permintaan tinggi.</p>
+                    <p><b>Alternatif Rekomendasi:</b> Anda dapat memilih <b>PC Gaming Stalin Titan Core</b> yang memiliki performa komputasi setara dengan garansi resmi 2 tahun.</p>
+                `;
+            }
+
+            // Skenario 8: Cara Merakit Komputer (PC Building Guide)
+            if(query.includes('rakit') || query.includes('merakit') || query.includes('tutorial')) {
+                return `
+                    <p><b>Panduan Singkat Merakit PC oleh Stalin Assistant:</b></p>
+                    <ol class="list-decimal pl-4 space-y-1 text-slate-300">
+                        <li>Pasang Processor & RAM pada Slot Motherboard.</li>
+                        <li>Pasang CPU Cooler dengan Thermal Paste secukupnya.</li>
+                        <li>Pasang Power Supply (PSU) ke dalam Casing PC.</li>
+                        <li>Posisikan Motherboard ke Casing dan kencangkan baut.</li>
+                        <li>Pasang Kartu Grafis (GPU/RTX) pada Slot PCIe.</li>
+                        <li>Hubungkan Kabel Power & Manajemen Kabel rapi.</li>
+                    </ol>
+                    <p class="text-amber-400 font-semibold mt-1">Gunakan gelang anti-statis saat proses perakitan!</p>
+                `;
+            }
+
+            // Skenario 5 & 6: Informasi Pribadi / Alamat / Keamanan
+            if(query.includes('email') || query.includes('alamat') || query.includes('checkout') || query.includes('pesanan')) {
+                return `
+                    <p>Sistem Stalin Assistant melindungi informasi pribadi Anda menggunakan enkripsi protokol keamanan.</p>
+                    <p>Silahkan masukkan detail alamat Anda untuk konfirmasi pengiriman pesanan secara aman.</p>
+                `;
+            }
+
+            // Skenario 3 & General Fallback
+            return `
+                <p>Saya mengerti pertanyaan Anda mengenai <i>"${input}"</i>.</p>
+                <p>Di Stalin Store kami menyediakan garansi resmi pada semua komponen hardware. Apakah Anda ingin dibantu memilih spek PC, mengecek garansi, atau rekomendasi harga tertentu?</p>
+            `;
+        }
+    </script>
+</body>
+</html>
